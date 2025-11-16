@@ -1,0 +1,113 @@
+CREATE DATABASE Veterinaria; 
+GO
+USE Veterinaria
+GO
+
+CREATE TABLE PERSONAS(
+    IDpersona INT IDENTITY (1,1) PRIMARY KEY,
+    DNI CHAR (10) NOT NULL, 
+    Nombre VARCHAR (50) NOT NULL, 
+    Apellido VARCHAR (50) NOT NULL, 
+    Email VARCHAR (100),
+    Direccion VARCHAR (100)
+);
+GO
+CREATE TABLE ROLES (
+    IDRol INT IDENTITY(1,1) PRIMARY KEY, 
+    Rol VARCHAR (50) NOT NULL UNIQUE
+);
+GO
+CREATE TABLE USUARIOS (
+    IDUsuario INT IDENTITY (1,1) PRIMARY KEY, 
+    NombreUsuario VARCHAR (50) NOT NULL,
+    Contraseña VARCHAR (100) NOT NULL, 
+    IDRol INT NOT NULL,
+    Email VARCHAR (100) NOT NULL,
+    Estado BIT DEFAULT 1,
+    FOREIGN KEY (IDRol) REFERENCES ROLES (IDRol)
+);
+GO
+CREATE TABLE CLIENTES (
+    IDCliente INT IDENTITY (1,1) PRIMARY KEY,
+    IDPersona INT NOT NULL, 
+    Estado BIT DEFAULT 1,
+    FOREIGN KEY (IDPersona) REFERENCES PERSONAS (IDPersona)
+);
+GO
+CREATE TABLE TELEFONO (
+    IDContacto INT IDENTITY (1,1) PRIMARY KEY, 
+    IDCliente INT NOT NULL,
+    Contacto VARCHAR (20),
+    FOREIGN KEY (IDCliente) REFERENCES CLIENTES (IDCliente) 
+);
+GO
+CREATE TABLE VETERINARIOS (
+    IDVeterinario int IDENTITY (1,1) PRIMARY KEY, 
+    IDPersona INT NOT NULL, 
+    IDUsuario INT NOT NULL, 
+    Matricula VARCHAR (20),
+    EspecialidadPincipal VARCHAR (50),
+    FOREIGN KEY (IDPersona) REFERENCES PERSONAS (IDpersona),
+    FOREIGN KEY (IDUsuario) REFERENCES USUARIOS (IDUsuario)
+); 
+GO
+CREATE TABLE ESPECIALIDADES (
+    IDEspecialidad INT IDENTITY (1,1) PRIMARY KEY, 
+    IDVeterinario INT NOT NULL, 
+    Especialidad VARCHAR (50), 
+    FOREIGN KEY (IDVeterinario) REFERENCES VETERINARIOS (IDVeterinario)
+);
+GO
+CREATE TABLE HORARIOS (
+    IDHorario INT IDENTITY (1,1) PRIMARY KEY, 
+    IDVeterinario INT NOT NULL, 
+    Dias VARCHAR (50),
+    FranjaHoraria TIME, 
+    FOREIGN KEY (IDVeterinario) REFERENCES VETERINARIOS (IDVeterinario)
+);
+GO
+CREATE TABLE SEXO(
+    IDSexo INT IDENTITY (1,1) PRIMARY KEY, 
+    Sexo VARCHAR (20) NOT NULL UNIQUE
+)
+GO
+CREATE TABLE ESPECIE (
+    IDEspecie INT IDENTITY (1,1) PRIMARY KEY,
+    Descripcion VARCHAR (50) NOT NULL
+);
+GO
+CREATE TABLE MASCOTAS (
+    IDMascota INT IDENTITY (1,1) PRIMARY KEY, 
+    IDCLiente INT NOT NULL, 
+    IDEspecie INT NOT NULL,
+    NombreMascota VARCHAR (50) NOT NULL,
+    Raza VARCHAR (50),
+    FechaNacimiento DATE,
+    IDSexo INT NOT NULL, 
+    FOREIGN KEY (IDCLiente) REFERENCES CLIENTES (IDCliente),
+    FOREIGN KEY (IDSexo) REFERENCES SEXO (IDSexo),
+    FOREIGN KEY (IDEspecie) REFERENCES ESPECIE (IDEspecie)
+);
+GO
+CREATE TABLE ATENCIONES (
+    IDAtencion INT IDENTITY (1,1) PRIMARY key, 
+    IDMascota INT NOT NULL, 
+    IDVeterinario INT NOT NULL, 
+    FechaAtencion DATE, 
+    MotivoConsulta VARCHAR (100),
+    Diagnostico VARCHAR (255),
+    Observaciones VARCHAR (255),
+    FOREIGN KEY (IDMascota) REFERENCES MASCOTAS (IDMascota),
+    FOREIGN KEY (IDVeterinario) REFERENCES VETERINARIOS (IDVeterinario)
+);
+GO
+CREATE TABLE TRATAMIENTOS (
+    IDTratamiento INT IDENTITY (1,1) PRIMARY KEY, 
+    IDAtencion INT NOT NULL, 
+    DescripcionTratamiento VARCHAR (255),
+    Medicamento VARCHAR (100),
+    Dosis VARCHAR (50),
+    DuracionTrataiento VARCHAR (255),
+    FOREIGN KEY (IDAtencion) REFERENCES ATENCIONES (IDAtencion)
+);
+GO
