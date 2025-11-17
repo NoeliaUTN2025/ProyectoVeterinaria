@@ -28,4 +28,11 @@ BEGIN
 END
 GO
 
+
 -- Repetir el mismo patrón para todas las tablas...
+
+ALTER TABLE MASCOTAS 
+ADD EstadoSalud VARCHAR (50) NOT NULL DEFAULT 'Sin Especificar';
+GO
+
+
