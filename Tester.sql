@@ -17,7 +17,7 @@ GO
 
 ---VISTA MASCOTAS POR ESPECIE 
 
-SELECT *FROM MascotasPorEspecie;
+SELECT *FROM MascotasPorEspecie; 
 GO
 
 --- Procedimiento almacenado RegistrarAtencionSinSuperposicion 
@@ -36,6 +36,17 @@ GO
 
 EXEC RegistrarAtencionSinSuperposicion
     @IDMascota = 1,
+    @IDVeterinario = 1,
+    @Fecha = '2025-02-20',
+    @Hora = '10:00',
+    @MotivoConsulta = 'Control general',
+    @Diagnostico = 'Control anual',
+    @Observaciones = 'Todo OK';
+GO
+
+
+EXEC RegistrarAtencionSinSuperposicion
+    @IDMascota =2,
     @IDVeterinario = 1,
     @Fecha = '2025-02-20',
     @Hora = '10:00',
