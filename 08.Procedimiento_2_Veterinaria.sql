@@ -55,3 +55,38 @@ IF EXISTS (
     END;
 
     GO
+
+--- Generar recordatorios controles 
+
+CREATE  PROCEDURE  GenerarRecordatoriosControles
+@IDAtencion INT 
+AS
+BEGIN
+    SET NOCOUNT ON; 
+    BEGIN TRY
+        DECLARE @IDMascota INT, @Fecha DATETIME; 
+        SELECT TOP 1 
+        @IDMascota = A.IDMascota, 
+        @Fecha = A.FechaAtencion 
+        FROM ATENCIONES A 
+        WHERE A.IDAtencion=@IDAtencion;
+
+        IF @IDMascota IS NULL
+             THROW 54000, 'Atencion inexistente' , 1; 
+
+INSERT INTO Recordatorios (IDMascota,IDAtencion,fechaRecordatorio, mensaje)
+VALUES (
+    @IDMascota,
+    @IDAtencion,
+    DATEADD(DAY,15, CONVERT(DATE,@Fecha)),
+    'Control de seguimiento automatico'
+); 
+
+END TRY
+BEGIN CATCH
+    THROW; 
+END CATCH
+END;
+GO
+
+

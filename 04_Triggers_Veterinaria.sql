@@ -24,3 +24,19 @@ BEGIN
     WHERE MASCOTAS.IDMascota = i.IDMascota; 
 END;
 GO
+
+DROP TRIGGER ActualizarEstadoMascotaPorDiagnostico; 
+GO
+
+--- Trigger para actualizar estado de mascota 
+
+CREATE PROCEDURE ActualizarEstadoMascota 
+@IDMascota INT, 
+@EstadoSalud VARCHAR (50)
+AS
+BEGIN
+    UPDATE Mascoras 
+    SET EstadoSalud = @EstadoSalud
+    WHERE IDMascota = @IDMascota; 
+    END;
+    GO

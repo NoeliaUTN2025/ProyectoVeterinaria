@@ -35,4 +35,18 @@ ALTER TABLE MASCOTAS
 ADD EstadoSalud VARCHAR (50) NOT NULL DEFAULT 'Sin Especificar';
 GO
 
+CREATE TABLE Recordatorios (
+    IDRecordatorio INT IDENTITY (1,1) PRIMARY KEY, 
+    IDMascota INT NOT NULL, 
+    IDAtencion INT NOT NULL, 
+    FechaRecordatorio DATE NOT NULL, 
+    Mensaje VARCHAR (255), 
+    Estado BIT DEFAULT 1,
+
+    CONSTRAINT FK_Recordatorios_Mascotas
+        FOREIGN KEY (IDMascota) REFERENCES Mascotas (IDMascota),
+    CONSTRAINT FK_Recordatorios_ATENCIONES
+        FOREIGN KEY (IDAtencion) REFERENCES ATENCIONES (IDAtencion) 
+); 
+GO
 
