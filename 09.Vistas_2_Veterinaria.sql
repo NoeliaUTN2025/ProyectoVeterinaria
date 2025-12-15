@@ -21,8 +21,8 @@ AS
 SELECT 
      m.IDMascota,
      m.NombreMascota AS MASCOTAS, 
-     pC.Nombre + '' AS CLIENTES,
-     pV.Nombre + ''  AS VETERINARIO, 
+     pC.Nombre + '' + pC.Apellido AS CLIENTES,
+     pV.Nombre + '' + pV.Apellido AS VETERINARIO, 
      a.FechaAtencion,
      a.Diagnostico,
      t.DescripcionTratamiento AS Tratamiento
