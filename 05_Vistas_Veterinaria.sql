@@ -18,10 +18,8 @@ IF EXISTS (SELECT 1 FROM sys.views WHERE name = 'VistaEstadisticasVeterinarios')
     DROP VIEW VistaEstadisticasVeterinarios;
 GO
 
--- 1. HistorialMascotas: Histórico completo de mascotas
 
-
--- 2. MascotasPorCliente: Resumen de mascotas por cliente
+-- 1. MascotasPorCliente: Resumen de mascotas por cliente
 CREATE VIEW MascotasPorCliente AS
 SELECT 
     cl.IDCliente,
@@ -39,14 +37,14 @@ WHERE cl.Estado = 1
 GROUP BY cl.IDCliente, p.DNI, p.Nombre, p.Apellido, p.Email, p.Direccion;
 GO
 
--- 3. VistaRecordatoriosPendientes: Agenda de controles pendientes
+-- 2. VistaRecordatoriosPendientes: Agenda de controles pendientes
 CREATE VIEW VistaRecordatoriosPendientes AS
 SELECT 
     m.IDMascota,
     m.NombreMascota,
     m.Raza,
     e.Descripcion as Especie,
-    p.Nombre + ' ' + p.Apellido as Dueño,
+    p.Nombre + ' ' + p.Apellido as Dueï¿½o,
     tel.Contacto as TelefonoContacto,
     a.FechaAtencion as UltimaAtencion,
     a.Diagnostico,
@@ -55,7 +53,7 @@ SELECT
     DATEADD(DAY, 
         CASE 
             WHEN t.DuracionTrataiento LIKE '%dias%' THEN TRY_CAST(REPLACE(t.DuracionTrataiento, ' dias', '') AS INT)
-            WHEN t.DuracionTrataiento LIKE '%días%' THEN TRY_CAST(REPLACE(t.DuracionTrataiento, ' días', '') AS INT)
+            WHEN t.DuracionTrataiento LIKE '%dï¿½as%' THEN TRY_CAST(REPLACE(t.DuracionTrataiento, ' dï¿½as', '') AS INT)
             ELSE 7
         END, 
         a.FechaAtencion
@@ -74,14 +72,14 @@ WHERE cl.Estado = 1
 AND DATEADD(DAY, 
     CASE 
         WHEN t.DuracionTrataiento LIKE '%dias%' THEN TRY_CAST(REPLACE(t.DuracionTrataiento, ' dias', '') AS INT)
-        WHEN t.DuracionTrataiento LIKE '%días%' THEN TRY_CAST(REPLACE(t.DuracionTrataiento, ' días', '') AS INT)
+        WHEN t.DuracionTrataiento LIKE '%dï¿½as%' THEN TRY_CAST(REPLACE(t.DuracionTrataiento, ' dï¿½as', '') AS INT)
         ELSE 7
     END, 
     a.FechaAtencion
 ) >= GETDATE();
 GO
 
--- 4. VistaEstadisticasVeterinarios: Análisis de productividad
+-- 3. VistaEstadisticasVeterinarios: Anï¿½lisis de productividad
 CREATE VIEW VistaEstadisticasVeterinarios AS
 SELECT 
     vet.IDVeterinario,

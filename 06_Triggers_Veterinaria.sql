@@ -14,7 +14,7 @@ IF EXISTS (SELECT 1 FROM sys.triggers WHERE name = 'TR_AuditoriaModificacionesAt
     DROP TRIGGER TR_AuditoriaModificacionesAtenciones;
 GO
 
--- 1. Trigger: EliminacionCliente - Baja lógica en lugar de eliminación física
+-- 1. Trigger: EliminacionCliente - Baja lï¿½gica en lugar de eliminaciï¿½n fï¿½sica
 CREATE TRIGGER TR_EliminacionCliente
 ON CLIENTES
 INSTEAD OF DELETE
@@ -29,14 +29,12 @@ BEGIN
     INNER JOIN deleted d ON cl.IDCliente = d.IDCliente
     WHERE EXISTS (SELECT 1 FROM MASCOTAS WHERE IDCLiente = cl.IDCliente);
     
-    PRINT 'Clientes con mascotas marcados como inactivos (baja lógica)';
+    PRINT 'Clientes con mascotas marcados como inactivos (baja lï¿½gica)';
 END;
 GO
 
--- 2. Trigger: RegistrarAtencion - Actualiza última atención de mascota
 
-
--- 3. Trigger: AuditoriaModificacionesAtenciones - Traza cambios en atenciones
+-- 2. Trigger: AuditoriaModificacionesAtenciones - Traza cambios en atenciones
 CREATE TRIGGER TR_AuditoriaModificacionesAtenciones
 ON ATENCIONES
 AFTER UPDATE
@@ -44,13 +42,13 @@ AS
 BEGIN
     SET NOCOUNT ON;
     
-    -- Actualizar información de auditoría
+    -- Actualizar informaciï¿½n de auditorï¿½a
     UPDATE ATENCIONES 
     SET FechaModificacion = GETDATE(),
         UsuarioModificacion = SYSTEM_USER
     WHERE IDAtencion IN (SELECT IDAtencion FROM inserted);
     
-    -- Registrar en tabla de auditoría
+    -- Registrar en tabla de auditorï¿½a
     IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'AUDITORIA_ATENCIONES')
     BEGIN
         CREATE TABLE AUDITORIA_ATENCIONES (
@@ -64,7 +62,7 @@ BEGIN
         );
     END
     
-    -- Insertar registros de auditoría
+    -- Insertar registros de auditorï¿½a
     INSERT INTO AUDITORIA_ATENCIONES (IDAtencion, CampoModificado, ValorAnterior, ValorNuevo, UsuarioModificacion)
     SELECT 
         i.IDAtencion,
@@ -88,7 +86,7 @@ BEGIN
     INNER JOIN deleted d ON i.IDAtencion = d.IDAtencion
     WHERE i.Diagnostico <> d.Diagnostico;
     
-    PRINT 'Auditoría de modificaciones registrada';
+    PRINT 'Auditorï¿½a de modificaciones registrada';
 END;
 GO
 

@@ -18,8 +18,9 @@ IF EXISTS (SELECT 1 FROM sys.procedures WHERE name = 'GenerarRecordatoriosContro
     DROP PROCEDURE GenerarRecordatoriosControles;
 GO
 
--- 1. NuevaAtencion: Registrar nueva atención con validaciones
--- 2. RegistroTratamiento: Registrar tratamiento asociado a atención
+
+ 
+-- 1. RegistroTratamiento: Registrar tratamiento asociado a atenciï¿½n
 CREATE PROCEDURE RegistroTratamiento
     @IDAtencion INT,
     @DescripcionTratamiento VARCHAR(255),
@@ -31,10 +32,10 @@ BEGIN
     SET NOCOUNT ON;
     
     BEGIN TRY
-        -- Validar que la atención existe
+        -- Validar que la atenciï¿½n existe
         IF NOT EXISTS (SELECT 1 FROM ATENCIONES WHERE IDAtencion = @IDAtencion)
         BEGIN
-            RAISERROR('Error: La atención con ID %d no existe.', 16, 1, @IDAtencion);
+            RAISERROR('Error: La atenciï¿½n con ID %d no existe.', 16, 1, @IDAtencion);
             RETURN -1;
         END
         
@@ -54,7 +55,7 @@ BEGIN
 END;
 GO
 
--- 3. ActualizarEstadoMascota: Mantener actualizado el estado de salud
+-- 2. ActualizarEstadoMascota: Mantener actualizado el estado de salud
 CREATE PROCEDURE ActualizarEstadoMascota
     @IDMascota INT
 AS
@@ -81,7 +82,7 @@ BEGIN
 END;
 GO
 
--- 4. GenerarRecordatoriosControles: Programar controles futuros
+-- 3. GenerarRecordatoriosControles: Programar controles futuros
 CREATE PROCEDURE GenerarRecordatoriosControles
 AS
 BEGIN
@@ -90,7 +91,7 @@ BEGIN
     SELECT 
         m.IDMascota,
         m.NombreMascota,
-        p.Nombre + ' ' + p.Apellido as Dueño,
+        p.Nombre + ' ' + p.Apellido as Dueï¿½o,
         tel.Contacto as Telefono,
         a.FechaAtencion as UltimaAtencion,
         t.DescripcionTratamiento,
@@ -98,7 +99,7 @@ BEGIN
         DATEADD(DAY, 
             CASE 
                 WHEN t.DuracionTrataiento LIKE '%dias%' THEN TRY_CAST(REPLACE(t.DuracionTrataiento, ' dias', '') AS INT)
-                WHEN t.DuracionTrataiento LIKE '%días%' THEN TRY_CAST(REPLACE(t.DuracionTrataiento, ' días', '') AS INT)
+                WHEN t.DuracionTrataiento LIKE '%dï¿½as%' THEN TRY_CAST(REPLACE(t.DuracionTrataiento, ' dï¿½as', '') AS INT)
                 ELSE 7
             END, 
             a.FechaAtencion
@@ -113,7 +114,7 @@ BEGIN
     AND DATEADD(DAY, 
         CASE 
             WHEN t.DuracionTrataiento LIKE '%dias%' THEN TRY_CAST(REPLACE(t.DuracionTrataiento, ' dias', '') AS INT)
-            WHEN t.DuracionTrataiento LIKE '%días%' THEN TRY_CAST(REPLACE(t.DuracionTrataiento, ' días', '') AS INT)
+            WHEN t.DuracionTrataiento LIKE '%dï¿½as%' THEN TRY_CAST(REPLACE(t.DuracionTrataiento, ' dï¿½as', '') AS INT)
             ELSE 7
         END, 
         a.FechaAtencion

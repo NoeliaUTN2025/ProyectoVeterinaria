@@ -1,7 +1,7 @@
 USE Veterinaria 
 GO
 
---- Procedimiento Almacenado para evitar atenciones superpuestas
+--- 4.Procedimiento Almacenado para evitar atenciones superpuestas
 
 ALTER TABLE ATENCIONES 
 ADD HoraAtencion TIME; 
@@ -56,7 +56,7 @@ IF EXISTS (
 
     GO
 
---- Generar recordatorios controles 
+--- 5. Generar recordatorios controles 
 
 CREATE  PROCEDURE  GenerarRecordatoriosControles
 @IDAtencion INT 
@@ -88,5 +88,9 @@ BEGIN CATCH
 END CATCH
 END;
 GO
+
+DROP PROCEDURE GenerarRecordatoriosControles; 
+GO
+
 
 

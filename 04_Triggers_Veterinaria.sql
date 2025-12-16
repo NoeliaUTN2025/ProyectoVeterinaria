@@ -1,7 +1,7 @@
 USE Veterinaria
 GO
 
----Trigger ActualizarEstadoMascotaPorDiagnostico
+---3. Trigger ActualizarEstadoMascotaPorDiagnostico
 ---El trigger sirve para actualizar el estado de salud de la mascota
 ---se ejecuta cuando se inserta una nueva atencion 
 

@@ -20,7 +20,7 @@ SELECT *FROM MASCOTAS WHERE IDMascota =1;
 
 INSERT INTO ATENCIONES (IDMascota, IDVeterinario,FechaAtencion,MotivoConsulta, Diagnostico , Observaciones)
 VALUES 
-(4,2, GETDATE(), 'Consulta', 'Vacuna', 'Se da de alta'); 
+(4,2, GETDATE(), 'Consulta', 'Fractura', 'Se opera'); 
 GO
 
 INSERT INTO ATENCIONES (IDMascota, IDVeterinario,FechaAtencion,MotivoConsulta,Diagnostico,Observaciones)
@@ -89,8 +89,19 @@ GO
 
 EXEC RegistrarAtencionSinSuperposicion
     @IDMascota =4,
+    @IDVeterinario = 2,
+    @Fecha = '2025-03-03',
+    @Hora = '11:30',
+    @MotivoConsulta = 'Control general',
+    @Diagnostico = 'Control anual',
+    @Observaciones = 'Todo OK';
+GO
+
+
+EXEC RegistrarAtencionSinSuperposicion
+    @IDMascota =3,
     @IDVeterinario = 1,
-    @Fecha = '2025-02-28',
+    @Fecha = '2025-03-04',
     @Hora = '11:30',
     @MotivoConsulta = 'Control general',
     @Diagnostico = 'Control anual',

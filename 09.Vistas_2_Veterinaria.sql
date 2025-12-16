@@ -1,7 +1,7 @@
 USE Veterinaria
 GO
 
----Vista: Mascotas con su cliente 
+---4.Vista: Mascotas por especie
 
 
 CREATE VIEW MascotasPorEspecie
@@ -14,7 +14,7 @@ INNER JOIN ESPECIE E ON M.IDEspecie = E.IDEspecie
 GROUP BY E.Descripcion;
 GO
 
----Vista Historial Mascotas 
+---5.Vista Historial Mascotas 
 
 CREATE VIEW HistorialMascotas 
 AS
